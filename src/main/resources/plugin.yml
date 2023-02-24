@@ -1,0 +1,11 @@
+name: SkyBlockMPG
+author: Pijok
+version: 1.0.0
+api-version: 1.13
+main: pl.pijok.skyblock.SkyBlock
+depend:
+  - FastAsyncWorldEdit
+commands:
+  wyspa:
+    usage: /wyspa
+    aliases: [w]
