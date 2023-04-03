@@ -3,13 +3,12 @@ package pl.pijok.skyblock.island;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -24,6 +23,7 @@ public class Island {
     private Location point2;
     private int islandLevel;
     private HashMap<Material, Integer> placedBlocks;
+    private ArrayList<UUID> islandChatMembers;
 
     public boolean isOnIsland(Player player){
         double x1 = point1.getX();
@@ -36,5 +36,17 @@ public class Island {
         double zP = player.getLocation().getZ();
 
         return (x1 < xP && xP < x2) || (x1 > xP && xP > x2) && (z1 < zP && zP < z2) || (z1 > zP && zP > z2);
+    }
+
+    public boolean hasPlayerIslandChatEnabled(UUID playerID){
+        return islandChatMembers.contains(playerID);
+    }
+
+    public ArrayList<Player> getIslandChatMembers(){
+        ArrayList<Player> players = new ArrayList<>();
+        for(UUID uuid : islandChatMembers){
+            players.add(Bukkit.getPlayer(uuid));
+        }
+        return players;
     }
 }
