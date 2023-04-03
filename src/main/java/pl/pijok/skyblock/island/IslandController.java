@@ -234,6 +234,18 @@ public class IslandController {
         return isOnIsland > 0;
     }
 
+    public boolean isPlayerOnIsland(Player player, UUID islandID) {
+        Island island = islands.get(islandID);
+
+        return island.isOnIsland(player);
+    }
+
+    public Island getIslandByPlayerLocation(Player player){
+        return islands.values().stream().filter(
+                island -> island.isOnIsland(player)
+        ).findFirst().orElse(null);
+    }
+
     public Island getIsland(UUID islandID){
         return islands.getOrDefault(islandID, null);
     }
