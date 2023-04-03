@@ -18,7 +18,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pl.pijok.skyblock.*;
 import pl.pijok.skyblock.skyblockPlayer.SkyBlockPlayer;
-import pl.pijok.skyblock.skyblockPlayer.SkyBlockPlayerController;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +32,7 @@ public class IslandController {
     private final SkyBlock plugin;
     private final HashMap<UUID, Island> islands;
     private final HashMap<UUID, Invite> invites;
+    private final IslandMapper mapper;
 
     private List<UUID> deletedIslands;
 
@@ -44,6 +44,7 @@ public class IslandController {
         this.plugin = plugin;
         this.invites = new HashMap<>();
         this.deletedIslands = new ArrayList<>();
+        this.mapper = new IslandMapper();
     }
 
     public boolean canCreateNewIsland(Player owner){
@@ -85,7 +86,8 @@ public class IslandController {
                 center,
                 point1,
                 point2,
-                1
+                1,
+                new HashMap<>()
         );
 
         islands.put(island.getIslandID(), island);
@@ -174,7 +176,7 @@ public class IslandController {
 
         File file = new File(plugin.getDataFolder() + File.separator + "islands" + File.separator + islandID.toString() + ".json");
 
-        Island island = IslandJSON.islandJSONToIsland((IslandJSON) JsonUtils.loadObject(file, IslandJSON.class));
+        Island island = mapper.mapDto((IslandDto) JsonUtils.loadObject(file, IslandDto.class));
         islands.put(island.getIslandID(), island);
     }
 
@@ -197,7 +199,7 @@ public class IslandController {
 
         File file = new File(plugin.getDataFolder() + File.separator + "islands" + File.separator + islandID.toString() + ".json");
 
-        JsonUtils.saveObject(file, IslandJSON.islandToIslandJSON(islands.get(islandID)));
+        JsonUtils.saveObject(file, mapper.mapToDto(islands.get(islandID)));
         islands.remove(islandID);
     }
 
@@ -314,8 +316,19 @@ public class IslandController {
     public void acceptInvite(Player target){
         Invite invite = invites.get(target.getUniqueId());
 
-        SkyBlockPlayer targetSkyBlockPlayer =
+        SkyBlockPlayer targetSkyBlockPlayer = Controllers.getSkyBlockPlayerController().getPlayer(target.getUniqueId());
 
+        Island island = islands.get(invite.getIslandID());
+
+        if(island.getMembers().size() >= GeneralConfig.getGeneralConfig().getMaxPlayersPerIsland()){
+            ChatUtils.sendMessage(target, Language.getText("maxPlayersReached"));
+            return;
+        }
+
+        island.getMembers().add(target.getUniqueId());
+        targetSkyBlockPlayer.setIslandID(island.getIslandID());
+
+        ChatUtils.sendMessage(target, Language.getText("acceptInvite"));
     }
 
     public void declineInvite(Player target){

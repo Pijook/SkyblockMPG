@@ -11,8 +11,9 @@ public class GeneralConfig {
 
         if(!file.exists()){
             generalConfig = new GeneralConfig(
-                    new Point("world", 0, 0, 0)
-            );
+                    new Point("world", 0, 0, 0),
+                    10,
+                    "islands");
 
             JsonUtils.saveObject(file, generalConfig);
             return;
@@ -26,12 +27,24 @@ public class GeneralConfig {
     }
 
     private final Point spawn;
+    private final int maxPlayersPerIsland;
+    private final String islandsWorld;
 
-    public GeneralConfig(Point spawn) {
+    public GeneralConfig(Point spawn, int maxPlayersPerIsland, String islandsWorld) {
         this.spawn = spawn;
+        this.maxPlayersPerIsland = maxPlayersPerIsland;
+        this.islandsWorld = islandsWorld;
     }
 
     public Point getSpawn() {
         return spawn;
+    }
+
+    public int getMaxPlayersPerIsland() {
+        return maxPlayersPerIsland;
+    }
+
+    public String getIslandsWorld() {
+        return islandsWorld;
     }
 }

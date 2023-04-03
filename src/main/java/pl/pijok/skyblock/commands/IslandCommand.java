@@ -105,6 +105,8 @@ public class IslandCommand implements CommandExecutor {
         }
         else if(args.length == 2){
             if(args[0].equalsIgnoreCase("zapros")){
+                Player player = (Player) sender;
+
                 String nickname = args[1];
                 Player target = Bukkit.getPlayer(nickname);
 
@@ -127,7 +129,17 @@ public class IslandCommand implements CommandExecutor {
                     return true;
                 }
 
+                SkyBlockPlayer targetSkyBlockPlayer = skyBlockPlayerController.getPlayer(target.getUniqueId());
 
+                if(targetSkyBlockPlayer.hasIslandOrIsMember()){
+                    ChatUtils.sendMessage(sender, Language.getText("playerAlreadyHasIsland"));
+                    return true;
+                }
+
+                islandController.createNewInvite(island, target);
+                ChatUtils.sendMessage(target, Language.getText("islandInvite").replace("{PLAYER}", player.getName()));
+                ChatUtils.sendMessage(player, Language.getText("playerReceivedInvite").replace("{PLAYER}", nickname));
+                return true;
             }
         }
 
@@ -135,6 +147,7 @@ public class IslandCommand implements CommandExecutor {
         ChatUtils.sendMessage(sender, "&7/" + label + " dom");
         ChatUtils.sendMessage(sender, "&7/" + label + " tp");
         ChatUtils.sendMessage(sender, "&7/" + label + " usun");
+        ChatUtils.sendMessage(sender, "&7/" + label + " zapros");
         if(sender.hasPermission("skyblock.admin.reload")){
             ChatUtils.sendMessage(sender, "&7/" + label + " reload");
         }

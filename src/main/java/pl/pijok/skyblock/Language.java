@@ -43,6 +43,12 @@ public class Language {
         tempLang.put("playerDeclinedInvite", "&c{PLAYER} odrzucil twoje zaproszenie na wyspe");
         tempLang.put("acceptInvite", "&aZaakceptowano zaproszenie na wyspe");
         tempLang.put("playerAcceptedInvite", "&a{PLAYER} zaakceptowal twoje zaproszenie na wyspe");
+        tempLang.put("maxPlayersReached", "&cWyspa ma juz maksymalna liczbe graczy!");
+        tempLang.put("islandInvite", "&aOtrzymales zaproszenie na wyspe od &e{PLAYER}");
+        tempLang.put("playerReceivedInvite", "&aGracz {PLAYER} otrzymal twoje zaproszenie");
+        tempLang.put("playerAlreadyHasIsland", "&cTen gracz ma juz wyspe");
+        tempLang.put("cantDoThis", "&cYou can't do this here!");
+        tempLang.put("blockLimitReached", "&cYou cant place another block of this type!");
 
         for(String tempKey : tempLang.keySet()){
             if(!lang.containsKey(tempKey)){

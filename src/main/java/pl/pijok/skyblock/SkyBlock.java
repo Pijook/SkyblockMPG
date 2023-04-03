@@ -2,6 +2,7 @@ package pl.pijok.skyblock;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 public class SkyBlock extends JavaPlugin {
@@ -23,6 +24,8 @@ public class SkyBlock extends JavaPlugin {
     public boolean loadPlugin(boolean reload){
         try{
             if(!reload){
+                checkFileStructure();
+
                 logger.info("Loading controllers");
                 Controllers.load(this);
 
@@ -36,12 +39,15 @@ public class SkyBlock extends JavaPlugin {
                 Controllers.getIslandController().loadDeletedIslands();
             }
 
-            Controllers.getIslandController().loadConfig();
-            Controllers.getIslandController().loadLastIslandLocation();
+            Language.load(this);
 
             GeneralConfig.load(this);
 
-            Language.load(this);
+            Controllers.getIslandController().loadConfig();
+            Controllers.getIslandController().loadLastIslandLocation();
+
+            Controllers.getBlockLimiter().load();
+            Controllers.getBlockValues().load();
 
             if(!reload){
                 Controllers.getIslandController().initAutoIslandSaving();
@@ -52,6 +58,13 @@ public class SkyBlock extends JavaPlugin {
             return false;
         }
         return true;
+    }
+
+    public void checkFileStructure(){
+        File folder = new File(this.getDataFolder().getName());
+        if(!folder.exists()){
+            folder.mkdir();
+        }
     }
 
     public void savePlugin(){
