@@ -49,4 +49,14 @@ public class Island {
         }
         return players;
     }
+
+    public boolean setChat(UUID playerID) {
+        if (islandChatMembers.contains(playerID)) {
+            islandChatMembers.remove(playerID);
+            return false;
+        } else {
+            islandChatMembers.add(playerID);
+            return true;
+        }
+    }
 }

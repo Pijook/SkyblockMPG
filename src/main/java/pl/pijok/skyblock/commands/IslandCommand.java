@@ -102,6 +102,25 @@ public class IslandCommand implements CommandExecutor {
                 ChatUtils.sendMessage(sender, Language.getText("pluginReloaded"));
                 return true;
             }
+            // Island Chat
+            else if (args[0].equalsIgnoreCase("chat") || args[0].equalsIgnoreCase("czat")) {
+                if (!(sender instanceof Player player)) {
+                    ChatUtils.sendMessage(sender, "&cCommand only for players!");
+                    return true;
+                }
+
+                if (!islandController.isPlayerOnIsland(player)) {
+                    ChatUtils.sendMessage(sender, Language.getText("notOnIsland"));
+                    return true;
+                }
+
+                Island island = islandController.getIslandByPlayerLocation(player);
+                if (island.setChat(player.getUniqueId())) {
+                    ChatUtils.sendMessage(sender, Language.getText("islandChatEnabled"));
+                } else {
+                    ChatUtils.sendMessage(sender, Language.getText("islandChatDisabled"));
+                }
+            }
         }
         else if(args.length == 2){
             if(args[0].equalsIgnoreCase("zapros")){
