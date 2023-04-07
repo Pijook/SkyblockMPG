@@ -1,7 +1,6 @@
 package pl.pijok.skyblock.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,12 +32,11 @@ public class IslandCommand implements CommandExecutor {
         if(args.length == 1){
             //Create
             if(args[0].equalsIgnoreCase("stworz")){
-                if(!(sender instanceof Player)){
+                if(!(sender instanceof Player player)){
                     ChatUtils.sendMessage(sender, "&cCommand only for players!");
                     return true;
                 }
 
-                Player player = (Player) sender;
                 if(!islandController.canCreateNewIsland(player)){
                     ChatUtils.sendMessage(player, Language.getText("alreadyHasIsland"));
                     return true;
@@ -50,12 +48,11 @@ public class IslandCommand implements CommandExecutor {
             }
             //Tp
             else if(args[0].equalsIgnoreCase("tp") || args[0].equalsIgnoreCase("dom")){
-                if(!(sender instanceof Player)){
+                if(!(sender instanceof Player player)){
                     ChatUtils.sendMessage(sender, "&cCommand only for players!");
                     return true;
                 }
 
-                Player player = (Player) sender;
                 if(!skyBlockPlayerController.getPlayer(player).hasIslandOrIsMember()){
                     ChatUtils.sendMessage(sender, Language.getText("noIsland"));
                     return true;
@@ -68,12 +65,11 @@ public class IslandCommand implements CommandExecutor {
             }
             //Delete
             else if(args[0].equalsIgnoreCase("usun")){
-                if(!(sender instanceof Player)){
+                if(!(sender instanceof Player player)){
                     ChatUtils.sendMessage(sender, "&cCommand only for players!");
                     return true;
                 }
 
-                Player player = (Player) sender;
                 if(!skyBlockPlayerController.getPlayer(player).hasIslandOrIsMember()){
                     ChatUtils.sendMessage(sender, Language.getText("noIsland"));
                     return true;
