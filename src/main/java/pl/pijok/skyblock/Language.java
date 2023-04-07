@@ -49,6 +49,9 @@ public class Language {
         tempLang.put("playerAlreadyHasIsland", "&cTen gracz ma juz wyspe");
         tempLang.put("cantDoThis", "&cYou can't do this here!");
         tempLang.put("blockLimitReached", "&cYou cant place another block of this type!");
+        tempLang.put("notOnIsland", "&cNie jesteś na żadnej wyspie!");
+        tempLang.put("islandChatEnabled", "&a&lWlaczono czat wyspy!");
+        tempLang.put("islandChatDisabled", "&c&lWylaczono czat wyspy!");
 
         for(String tempKey : tempLang.keySet()){
             if(!lang.containsKey(tempKey)){

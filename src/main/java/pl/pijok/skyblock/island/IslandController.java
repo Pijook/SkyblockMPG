@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class IslandController {
 
@@ -223,6 +224,26 @@ public class IslandController {
         }
 
         return false;
+    }
+
+    public boolean isPlayerOnIsland(Player player) {
+        int isOnIsland = islands.values().stream().filter(
+                island -> island.isOnIsland(player)
+        ).toList().size();
+
+        return isOnIsland > 0;
+    }
+
+    public boolean isPlayerOnIsland(Player player, UUID islandID) {
+        Island island = islands.get(islandID);
+
+        return island.isOnIsland(player);
+    }
+
+    public Island getIslandByPlayerLocation(Player player){
+        return islands.values().stream().filter(
+                island -> island.isOnIsland(player)
+        ).findFirst().orElse(null);
     }
 
     public Island getIsland(UUID islandID){
